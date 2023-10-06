@@ -1,0 +1,77 @@
+services:
+  api:
+    container_name: api-dev
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - docker.env
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_DIALECT: ${DATABASE_DIALECT}
+      DATABASE_LOGGING: true
+      DATABASE_SYNCHRONIZATION: false
+      DATABASE_SSL: false
+      DATABASE_AUTOLOAD_MODELS: false
+      DATABASE_REJECT_UNAUTHORIZED: false
+
+    # Run a command against the development stage of the image
+    command: npm run start:dev
+    ports:
+      - 4000:4000
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:alpine
+    restart: always
+    container_name: redis-dev
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/var/lib/redis/data
+
+  postgres:
+    image: postgres:alpine
+    restart: always
+    container_name: postgres-dev
+    env_file:
+      - docker.env
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin-dev
+    env_file:
+      - docker.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 5050:80
+    depends_on:
+      - postgres
+
+volumes:
+  redis:
+    driver: local
+  postgres:

@@ -1,0 +1,71 @@
+{
+    "extends": [
+        "@commitlint/config-conventional"
+    ],
+    "rules": {
+        "type-enum": [
+            2,
+            "always",
+            [
+                "feat",
+                "fix",
+                "docs",
+                "style",
+                "refactor",
+                "perf",
+                "test",
+                "build",
+                "ci",
+                "chore",
+                "revert",
+                "wip",
+                "release"
+            ]
+        ],
+        "type-case": [
+            2,
+            "always",
+            "lower-case"
+        ],
+        "type-empty": [
+            2,
+            "never"
+        ],
+        "scope-empty": [
+            2,
+            "never"
+        ],
+        "scope-case": [
+            2,
+            "always",
+            "lower-case"
+        ],
+        "scope-enum": [
+            2,
+            "always",
+            [
+                "setup",
+                "user management",
+                "attendance management",
+                "visit management",
+                "task management",
+                "feedback management",
+                "location management",
+                "asset management",
+                "rewards management",
+                "survey management",
+                "dashboard and insights",
+                "curriculum management",
+                "event management",
+                "notification management",
+                "report management",
+                "configuration management",
+                "incident management"
+            ]
+        ],
+        "subject-empty": [
+            2,
+            "never"
+        ]
+    }
+}
