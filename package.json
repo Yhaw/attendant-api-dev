@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "engines": {
-    "node": ""
+    "node": "18.0.0"
   },
   "author": "Afrilogic Solutions",
   "private": true,
